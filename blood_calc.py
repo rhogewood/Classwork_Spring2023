@@ -7,4 +7,10 @@ def interface():
         if choice == "9":
             return
 
+
+def HDL_input():
+    HDL_value = input("Enter the HDL result:" )
+    HDL_value = int(HDL_value)
+    return HDL_value
+
 interface()
