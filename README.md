@@ -8,8 +8,14 @@ This is written in Python.
 
 ## Specifications
 The database will contain:  
-* Patient Name
-* Patient Age
+* Patient Name - str
+* Patient Medical Record - int
+* Patient Age - int
+* Patient Test Results - list of lists
+ - This list will consist of [test_name, test_value]
+ test_name is a str and test_value is an int
+
+
 * Patient Bloodtype
     - A+
     - A-
@@ -25,3 +31,6 @@ The database will contain:
 1. Medical Record Number
 
 The variable name is 'x_variable'.
+
+
+
