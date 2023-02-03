@@ -8,12 +8,13 @@ This is written in Python.
 
 ## Specifications
 The database will contain:  
-* Patient Name, string
-* Patient Medical Record Number, integer
-* Patient Age, integer
-* Patient Test Results, list of lists
-	- Each testis represent by [test_name, test_value]  
-	where test_name is a string and test_value is an integer/float
+
+* Patient Name - str
+* Patient Medical Record - int
+* Patient Age - int
+* Patient Test Results - list of lists
+ - This list will consist of [test_name, test_value]
+ test_name is a str and test_value is an int
 
 
 * Patient Bloodtype
@@ -30,4 +31,4 @@ The database will contain:
 1. Patient Gender
 1. Medical Record Number
 
-The variable name is 'x_variable'.
+
