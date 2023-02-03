@@ -8,6 +8,7 @@ This is written in Python.
 
 ## Specifications
 The database will contain:  
+
 * Patient Name - str
 * Patient Medical Record - int
 * Patient Age - int
@@ -29,8 +30,5 @@ The database will contain:
 1. Patient address
 1. Patient Gender
 1. Medical Record Number
-
-The variable name is 'x_variable'.
-
 
 
