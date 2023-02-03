@@ -93,4 +93,5 @@ def TC_analysis(TC_int):
 def TC_output(TC_value, TC_ana):
     print("The Total Cholesterol result of {} is considered {}".format(TC_value, TC_ana))
 
-interface()
+if __name__ == "__main__":
+    interface()
