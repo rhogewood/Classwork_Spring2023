@@ -13,8 +13,10 @@ def get_full_name(patient):
 
 def print_database(db):
     for patient in db.values():
-        print("MRN: {}, Full Name: {}, Age: {}".format(patient["Patient MRN"], get_full_name(patient),
-                                                       patient["Patient Age"]))
+        print("MRN: {}, Full Name: {}, Age: {}"
+              .format(patient["Patient MRN"],
+                      get_full_name(patient),
+                      patient["Patient Age"]))
 
 
 def main_driver():
@@ -32,12 +34,6 @@ def main_driver():
     # print(db)
     # print_directory(db, room_numbers)
     print(get_test_result(db, 2, "LDL"))
-
-    def print_directory(db, room_numbers):
-        for i, patient in enumerate(db):
-            print("Patient {} is in room {}".format(patient[0], room_numbers[i]))
-        for patient, rn in zip(db, room_numbers):
-            print("Patient {} is in room {}".format(patient[0], rn))
 
 
 # two different ways to get the same thing for room numbers(above)
