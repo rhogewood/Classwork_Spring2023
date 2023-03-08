@@ -93,8 +93,10 @@ def add_test_driver(in_data):
         return validation, 400
     does_id_exist = does_patient_exist_in_db(in_data["id"])
     if does_id_exist is False:
-        return "Patient id {} does not exist in database".format(in_data["id"]), 400
-    add_test_to_db(in_data["id"], in_data["test_names"], in_data["test_result"])
+        return "Patient id {} does not exist in database"\
+            .format(in_data["id"]), 400
+    add_test_to_db(in_data["id"], in_data["test_names"],
+                   in_data["test_result"])
     return "Test successfully added", 200
 
 
