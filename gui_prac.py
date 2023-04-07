@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 
 import requests
+from PIL import Image, ImageTk
 
 
 def create_blood_string(blood_letter, rh):
@@ -24,15 +25,19 @@ def send_data_to_server(patient_name, id_number,
     return r.text
 
 
-def check_and_upload_data(patient_name, id_number,
-                          blood_letter, rh, donation_center):
-    blood_string = create_blood_string(blood_letter, rh)
-    id_number = int(id_number)
-    if id_number_verification(id_number) is False:
-        return "ID number is incorrect"
-    msg = send_data_to_server(patient_name, id_number,
-                              blood_string, donation_center)
-    return msg
+# def check_and_upload_data(patient_name, id_number,
+#                           blood_letter, rh, donation_center):
+#     blood_string = create_blood_string(blood_letter, rh)
+#     id_number = int(id_number)
+#     if id_number_verification(id_number) is False:
+#         return "ID number is incorrect"
+#         # msg = send_data_to_server(patient_name, id_number,
+#         #                           blood_string, donation_center)
+#     msg = "patient name is{}, patient id is {}, patient blood type is {}, " \
+#           "patient donation center is {}".format(patient_name, id_number,
+#                                                  blood_string, donation_center)
+#     print(msg)
+#     return msg
 
 
 def set_up_window():
@@ -43,16 +48,53 @@ def set_up_window():
         blood_letter = blood_letter_value.get()
         rh = rh_factor_value.get()
         donation_center = donation_value.get()
-        msg = check_and_upload_data(patient_name, id_number, blood_letter,
-                                    rh, donation_center)
-        status_label.configure(text=msg)
+        # msg = check_and_upload_data(patient_name, id_number, blood_letter,
+        #                             rh, donation_center)
+        # status_label.configure(text=msg)
+        # id_entry.configure(state=tk.DISABLED)
 
     def cancel_btn_cmd():
         root.destroy()
+        # id_entry.configure(state=tk.NORMAL) # how to activate or deactivate button
 
     root = tk.Tk()
     root.title("Donor Database GUI")
+
     # root.geometry("800x800")
+
+    def change_label_color():
+        current_color = top_label.cget("foreground")
+        if current_color == "":
+            color = "black"
+        else:
+            color = current_color.string
+        if color == "black":
+            new_color = "red"
+        else:
+            new_color = "black"
+        top_label.configure(foreground=new_color)
+        root.after(1000, change_label_color)
+
+    def shuffle_choices():
+        current_choices = list(donation_combobox.cget("values"))
+        import random
+        random.shuffle(current_choices)
+        donation_combobox.configure(values=current_choices)
+
+    def change_image_cmd():
+        filename = filedialog.askopenfilename(initialdir="Images")
+        if filename == "":
+            return
+        new_image = Image.open(filename)
+        # do image size manipulation outside GUI so you can unit test
+        current_size = new_image.size
+        max_size = 100
+        alpha = max_size / max(current_size)
+        new_image = new_image.resize((round(alpha * current_size[0]),
+                                      round(alpha * current_size[1])))
+        tk_image = ImageTk.PhotoImage(new_image)
+        image_label.configure(image=tk_image)
+        image_label.image = tk_image
 
     top_label = ttk.Label(root, text="Blood Donor Database")
     top_label.grid(column=0, row=0, columnspan=2, sticky=tk.W)
@@ -96,15 +138,32 @@ def set_up_window():
     check_box_widget.grid(column=1, row=4)
 
     donation_label = ttk.Label(root, text="Closest Donation Center")
-    donation_label.grid(column=2, row=1)
+    donation_label.grid(column=2, row=0)
     donation_value = tk.StringVar()
     donation_combobox = ttk.Combobox(root, textvariable=donation_value)
     donation_combobox.grid(column=2, row=1)
     donation_combobox["values"] = ("Durham", "Apex", "Raleigh")
     donation_combobox.state(["readonly"])
+    donation_combobox.configure(postcommand=shuffle_choices)
 
     status_label = ttk.Label(root, text="")
     status_label.grid(row=7, column=0, columnspan=10)
+
+    pil_image = Image.open("Images/IMG_1.JPG")
+    current_size = pil_image.size
+    max_size = 100
+    alpha = max_size / max(current_size)
+    pil_image = pil_image.resize((round(alpha * current_size[0]),
+                                  round(alpha * current_size[1])))
+    tk_image = ImageTk.PhotoImage(pil_image)
+    image_label = ttk.Label(root, image=tk_image)
+    image_label.grid(column=1, row=7)
+
+    image_change_button = ttk.Button(root, text="Change Image", command=change_image_cmd)
+    image_change_button.grid(column=2, row=7)
+
+    # top_label.configure(foreground="red")
+    root.after(3000, change_label_color)
 
     root.mainloop()
     # needs to be last line of
